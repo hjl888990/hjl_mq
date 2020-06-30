@@ -58,5 +58,12 @@ interface MqStoragetInterface
      */
     public function changeMessageVisibility($queueName, $receiptHandle, $visibilityTimeout);
 
+    /**
+     * 队列无消息判断
+     * @param $response
+     * @return mixed
+     */
+    public function checkNoMessage($response);
+
 
 }

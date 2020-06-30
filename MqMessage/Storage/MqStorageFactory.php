@@ -30,18 +30,15 @@ class MqStorageFactory
             return null;
         }
         $hashKey = md5(json_encode(['mqType' => $mqType, 'mqConfig' => $mqConfig]));
-        if (self::$mqInstance[$hashKey]) {
+        if (isset(self::$mqInstance[$hashKey])) {
             return self::$mqInstance[$hashKey];
         }
-
         switch ($mqType) {
             case self::MQ_STORAGE_TYPE_OF_MNS:
                 self::$mqInstance[$hashKey] = new AliyunMnsQueue($mqConfig);
-                break;
-            default:
-                self::$mqInstance[$hashKey] = new AliyunMnsQueue($mqConfig);
+                return self::$mqInstance[$hashKey];
                 break;
         }
-        return self::$mqInstance[$hashKey];
+        return null;
     }
 }

@@ -76,6 +76,7 @@ class AliyunMnsQueue implements MqStoragetInterface
             $queue = $this->client->getQueueRef($queueName);
             $items = [];
             foreach ($messageBody as $one) {
+                $one     = is_array($one) ? json_encode($one) : $one;
                 $items[] = new SendMessageRequestItem($one);
                 if (count($items) % 15 == 0) {
                     $request = new BatchSendMessageRequest($items);
@@ -88,7 +89,7 @@ class AliyunMnsQueue implements MqStoragetInterface
                 $queue->batchSendMessage($request);
             }
             $ret['success'] = true;
-        } catch (MnsException $e) {
+        } catch (\Exception $e) {
             $ret['success'] = false;
             $ret ['code']   = $e->getCode();
             $ret ['errMsg'] = $e->getMessage();
@@ -120,7 +121,7 @@ class AliyunMnsQueue implements MqStoragetInterface
             $ret ['data'] ['handle']       = $res->getReceiptHandle();
             $ret ['data'] ['dequeueCount'] = $res->getDequeueCount();//被消费次数
 
-        } catch (MnsException $e) {
+        } catch (\Exception $e) {
             $ret['success'] = false;
             $ret ['code']   = $e->getCode();
             $ret ['errMsg'] = $e->getMessage();
@@ -150,7 +151,7 @@ class AliyunMnsQueue implements MqStoragetInterface
             $queue = $this->client->getQueueRef($queueName);
             $queue->deleteMessage($receiptHandle);
             $ret ['success'] = true;
-        } catch (MnsException $e) {
+        } catch (\Exception $e) {
             $ret['success'] = false;
             $ret ['code']   = $e->getCode();
             $ret ['errMsg'] = $e->getMessage();
@@ -181,12 +182,28 @@ class AliyunMnsQueue implements MqStoragetInterface
 
             $queue->changeMessageVisibility($receiptHandle, $visibilityTimeout);
             $ret ['success'] = true;
-        } catch (MnsException $e) {
+        } catch (\Exception $e) {
             $ret['success'] = false;
             $ret ['code']   = $e->getCode();
             $ret ['errMsg'] = $e->getMessage();
         }
         return $ret;
+    }
+
+    /**
+     * 队列无消息判断
+     * @param $response
+     * @return bool
+     */
+    public function checkNoMessage($response) {
+        $result = false;
+        if (!empty($response['success'])) {
+            return $result;
+        }
+        if ($response['code'] == 404) {//无消息
+            $result = true;
+        }
+        return $result;
     }
 
 
