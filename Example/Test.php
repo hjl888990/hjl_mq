@@ -23,7 +23,7 @@ class Test
                 'maxWaitTime'               => 10,//空消息最大监听事时间(秒)
                 'messageVisibilityTime'     => 30,//消息隐藏时间
             ];
-            $messageModel->consumeMnsMessage($queueName, $consumeMessageUserFunc, $saveMessageUserFunc, $config);
+            $messageModel->consumeMessage($queueName, $consumeMessageUserFunc, $saveMessageUserFunc, $config);
         } catch (\Exception $e) {
             var_dump($e->getMessage());
         }

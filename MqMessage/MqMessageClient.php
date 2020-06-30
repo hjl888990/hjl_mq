@@ -40,7 +40,7 @@ class MqMessageClient
      * @param array $config 配置
      * @throws \Exception
      */
-    public function consumeMnsMessage($queueName, $consumeMessageUserFunc, $saveMessageUserFunc = [], $config = []) {
+    public function consumeMessage($queueName, $consumeMessageUserFunc, $saveMessageUserFunc = [], $config = []) {
         $this->isValid([$queueName, $consumeMessageUserFunc]);
         $mqConfig = new MqConfig();
         if (!empty($config)) {
