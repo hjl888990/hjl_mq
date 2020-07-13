@@ -105,6 +105,23 @@ class MqMessageModel
     }
 
     /**
+     * 推送主题消息
+     * @param $topicName 队列名称
+     * @param $messageBody 消息体
+     * @param MqConfig $mqConfig 配置
+     * @return
+     * @throws \Exception
+     */
+    public function sendTopicMessage($topicName, $messageBody, MqConfig $mqConfig) {
+        if (empty($this->client)) {
+            throw new \Exception('MQ client is null');
+        }
+        $messageBody = is_array($messageBody) ? json_encode($messageBody) : $messageBody;
+        return $this->client->sendTopicMessage($topicName, $messageBody);
+    }
+
+
+    /**
      * 推送多条消息到队列
      * @param $queueName 队列名称
      * @param $messageBody 消息体

@@ -34,6 +34,14 @@ interface MqStoragetInterface
     public function sendMessage($queueName, $messageBody);
 
     /**
+     * 发送主题消息
+     * @param $topicName
+     * @param $messageBody
+     * @return mixed
+     */
+    public function sendTopicMessage($topicName, $messageBody);
+
+    /**
      * 发送一批消息
      * @param $queueName
      * @param $messageBody

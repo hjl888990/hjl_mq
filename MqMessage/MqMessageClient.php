@@ -71,6 +71,25 @@ class MqMessageClient
     }
 
     /**
+     * 推送主题消息
+     * @param $topicName 主题名称
+     * @param $messageBody 内容
+     * @param array $config 配置
+     * @return bool
+     * @throws \Exception
+     */
+    public function sendTopicMessage($topicName, $messageBody, $config = []) {
+        $this->isValid([$topicName, $messageBody]);
+        $mqConfig = new MqConfig();
+        if (!empty($config)) {
+            $mqConfig->setProperty($config);
+        }
+        $mqModel = new MqMessageModel($this->mqType, $this->mqConfig);
+        $result  = $mqModel->sendTopicMessage($topicName, $messageBody, $mqConfig);
+        return $result;
+    }
+
+    /**
      * 推送多条消息到队列
      * @param $queueName 队列名称
      * @param $messageBody 内容
