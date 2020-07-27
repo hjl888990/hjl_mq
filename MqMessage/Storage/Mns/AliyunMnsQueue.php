@@ -48,10 +48,10 @@ class AliyunMnsQueue implements MqStoragetInterface
             $request = new SendMessageRequest($messageBody);
             $queue->sendMessage($request);
             $ret['success'] = true;
-        } catch (\Exception $e) {
+        } catch (MnsException $e) {
             $ret['success'] = false;
             $ret ['code']   = $e->getCode();
-            $ret ['errMsg'] = $e->getMessage();
+            $ret ['errMsg'] = 'MnsRequestId[' . $e->getRequestId() . ']' . 'MnsErrorCode[' . $e->getMnsErrorCode() . ']' . 'ErrorMsg[' . $e->getMessage() . ']';
         }
         return $ret;
     }
@@ -77,10 +77,10 @@ class AliyunMnsQueue implements MqStoragetInterface
             $request = new PublishMessageRequest($messageBody);
             $topic->publishMessage($request);
             $ret['success'] = true;
-        } catch (\Exception $e) {
+        } catch (MnsException $e) {
             $ret['success'] = false;
             $ret ['code']   = $e->getCode();
-            $ret ['errMsg'] = $e->getMessage();
+            $ret ['errMsg'] = 'MnsRequestId[' . $e->getRequestId() . ']' . 'MnsErrorCode[' . $e->getMnsErrorCode() . ']' . 'ErrorMsg[' . $e->getMessage() . ']';
         }
         return $ret;
     }
@@ -119,10 +119,10 @@ class AliyunMnsQueue implements MqStoragetInterface
                 $queue->batchSendMessage($request);
             }
             $ret['success'] = true;
-        } catch (\Exception $e) {
+        } catch (MnsException $e) {
             $ret['success'] = false;
             $ret ['code']   = $e->getCode();
-            $ret ['errMsg'] = $e->getMessage();
+            $ret ['errMsg'] = 'MnsRequestId[' . $e->getRequestId() . ']' . 'MnsErrorCode[' . $e->getMnsErrorCode() . ']' . 'ErrorMsg[' . $e->getMessage() . ']';
         }
         return $ret;
     }
@@ -151,10 +151,10 @@ class AliyunMnsQueue implements MqStoragetInterface
             $ret ['data'] ['handle']       = $res->getReceiptHandle();
             $ret ['data'] ['dequeueCount'] = $res->getDequeueCount();//被消费次数
 
-        } catch (\Exception $e) {
+        } catch (MnsException $e) {
             $ret['success'] = false;
             $ret ['code']   = $e->getCode();
-            $ret ['errMsg'] = $e->getMessage();
+            $ret ['errMsg'] = 'MnsRequestId[' . $e->getRequestId() . ']' . 'MnsErrorCode[' . $e->getMnsErrorCode() . ']' . 'ErrorMsg[' . $e->getMessage() . ']';
         }
         return $ret;
     }
@@ -181,10 +181,10 @@ class AliyunMnsQueue implements MqStoragetInterface
             $queue = $this->client->getQueueRef($queueName);
             $queue->deleteMessage($receiptHandle);
             $ret ['success'] = true;
-        } catch (\Exception $e) {
+        } catch (MnsException $e) {
             $ret['success'] = false;
             $ret ['code']   = $e->getCode();
-            $ret ['errMsg'] = $e->getMessage();
+            $ret ['errMsg'] = 'MnsRequestId[' . $e->getRequestId() . ']' . 'MnsErrorCode[' . $e->getMnsErrorCode() . ']' . 'ErrorMsg[' . $e->getMessage() . ']';
         }
         return $ret;
     }
@@ -212,10 +212,10 @@ class AliyunMnsQueue implements MqStoragetInterface
 
             $queue->changeMessageVisibility($receiptHandle, $visibilityTimeout);
             $ret ['success'] = true;
-        } catch (\Exception $e) {
+        } catch (MnsException $e) {
             $ret['success'] = false;
             $ret ['code']   = $e->getCode();
-            $ret ['errMsg'] = $e->getMessage();
+            $ret ['errMsg'] = 'MnsRequestId[' . $e->getRequestId() . ']' . 'MnsErrorCode[' . $e->getMnsErrorCode() . ']' . 'ErrorMsg[' . $e->getMessage() . ']';
         }
         return $ret;
     }
